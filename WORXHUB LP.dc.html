@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; }
+  a { color: #013bd8; text-decoration: none; }
+  a:hover { color: #0130b0; }
+
+  /* ===== Responsive (mobile only — PC unaffected) ===== */
+  @media (max-width: 1024px) {
+    [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+    [data-grid2] { grid-template-columns: repeat(2,1fr) !important; }
+    [data-flow] { flex-direction: column !important; }
+    [data-flow-arrow] { transform: rotate(90deg); margin: 4px 0 !important; align-self: center !important; }
+    [data-fv-grid] { grid-template-columns: 1fr !important; grid-template-areas: "text" "spvisual" "cta" !important; align-content: start !important; align-items: start !important; }
+    [data-fv-text] { padding: 10px 40px 0 !important; align-self: start !important; }
+    [data-fv-cta] { padding: 28px 40px 64px !important; }
+    [data-fv-visual] { display: none !important; }
+    [data-fv-sp] { display: flex !important; }
+    [data-fv-overlay] { background: linear-gradient(180deg, rgba(243,242,244,0.98) 0%, rgba(243,242,244,0.95) 42%, rgba(243,242,244,0.80) 66%, rgba(243,242,244,0.30) 100%) !important; }
+    [data-fv-bg] { object-position: center 32% !important; }
+  }
+  @media (max-width: 1100px) {
+    [data-nav], [data-header-cta] { display: none !important; }
+    [data-hamburger] { display: flex !important; }
+  }
+  @media (max-width: 768px) {
+    section[data-screen-label]:not([data-row]):not([data-fv-grid]) { padding-left: 20px !important; padding-right: 20px !important; }
+    section[data-screen-label]:not([data-row]):not([data-screen-label="Band"]):not([data-fv-grid]) { padding-top: 64px !important; padding-bottom: 64px !important; }
+    [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+    [data-grid2] { grid-template-columns: repeat(2,1fr) !important; }
+    h1 { font-size: 34px !important; white-space: normal !important; }
+    h2 { font-size: 28px !important; }
+    [data-row] { flex-direction: column !important; min-height: 0 !important; }
+    [data-row] > div { width: 100% !important; flex: none !important; padding-right: 0 !important; }
+    [data-fv-grid] { grid-template-columns: 1fr !important; grid-template-areas: "text" "spvisual" "cta" !important; min-height: 0 !important; align-content: start !important; align-items: start !important; }
+    [data-fv-text] { padding: 8px 20px 0 !important; align-self: start !important; }
+    [data-fv-cta] { padding: 24px 20px 40px !important; flex-direction: column !important; align-items: stretch !important; }
+    [data-fv-cta] a { width: 100% !important; justify-content: center !important; }
+    [data-fv-text] p br, [data-fv-text] h1 br { display: none; }
+    [data-fv-visual] { display: none !important; }
+    [data-fv-sp] { display: flex !important; }
+    [data-row] img { min-height: 0 !important; max-height: 340px !important; }
+    [data-issue-card] { flex-direction: column !important; }
+    [data-issue-card] img { width: 100% !important; min-height: 0 !important; height: 190px !important; align-self: auto !important; margin-top: 16px; }
+    [data-banner] { flex-direction: column !important; align-items: flex-start !important; gap: 20px !important; padding: 32px 24px !important; }
+    [data-cta-card] { flex-direction: column !important; }
+    [data-cta-card] > div { width: 100% !important; flex: none !important; }
+    [data-cta-btns] { flex-direction: column !important; }
+    [data-cta-btns] a { width: 100% !important; justify-content: center !important; }
+    /* Flow → vertical */
+    [data-flow] { flex-direction: column !important; }
+    [data-flow-arrow] { transform: rotate(90deg); margin: 4px 0 !important; align-self: center !important; }
+    /* CTA card */
+    [data-cta-card] { padding: 40px 24px !important; }
+    /* Footer: stack on mobile */
+    [data-foot-row] { flex-direction: column !important; gap: 40px !important; }
+    [data-foot-row] > div { flex: none !important; width: 100% !important; }
+    [data-foot-links] { flex-direction: column !important; gap: 36px !important; }
+    /* CTA bands */
+    section[data-screen-label="Band"] > div > div { flex-direction: column !important; align-items: flex-start !important; padding: 32px 24px !important; }
+    section[data-screen-label="Band"] > div > div > div:last-child { width: 100% !important; flex-wrap: wrap !important; }
+    section[data-screen-label="Band"] a { flex: 1 1 auto; justify-content: center; }
+    /* Sticky CTA bar */
+    [data-cta-bar] > div { padding: 10px 16px !important; }
+    [data-cta-bar-text] { display: none !important; }
+    [data-cta-bar] a { flex: 1 1 auto !important; justify-content: center !important; padding: 0 12px !important; height: 50px !important; font-size: 14px !important; }
+  }
+</style>
+</helmet>
+<div style="width:100%; max-width:1440px; margin:0 auto; background:#f3f2f4; font-family:'Noto Sans JP',sans-serif; color:#0A0B0D; overflow:hidden; padding-bottom:84px;">
+
+  <!-- ============ HEADER ============ -->
+  <header style="height:88px; background:#ffffff; display:flex; align-items:center; padding:0 40px; gap:40px; position:sticky; top:0; z-index:100; box-shadow:0 1px 0 rgba(0,0,0,0.06);">
+    <div style="font-weight:800; font-size:26px; letter-spacing:0.01em; white-space:nowrap;">WORX&nbsp;HUB</div>
+    <nav data-nav style="display:flex; align-items:center; gap:34px; margin-left:24px;">
+      <a href="#feature" style="color:#0A0B0D; font-size:15px; font-weight:600;">機能</a>
+      <a href="#benefits" style="color:#0A0B0D; font-size:15px; font-weight:600;">導入メリット</a>
+      <a href="#reason" style="color:#0A0B0D; font-size:15px; font-weight:600;">選ばれる理由</a>
+      <a href="#" style="color:#0A0B0D; font-size:15px; font-weight:600;">ラインナップ</a>
+      <a href="#flow" style="color:#0A0B0D; font-size:15px; font-weight:600;">導入フロー</a>
+      <a href="#faq" style="color:#0A0B0D; font-size:15px; font-weight:600;">よくあるご質問</a>
+    </nav>
+    <div data-header-cta style="margin-left:auto; display:flex; align-items:center; gap:12px;">
+      <a href="#" style="height:52px; padding:0 24px; border-radius:26px; background:#013bd8; color:#ffffff; display:flex; align-items:center; gap:10px; font-size:15px; font-weight:600; white-space:nowrap;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+        資料ダウンロード
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#" style="height:52px; padding:0 24px; border-radius:26px; background:#ffffff; border:1.5px solid #d5d8dd; color:#0A0B0D; display:flex; align-items:center; gap:10px; font-size:15px; font-weight:600; white-space:nowrap;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+        お問い合わせ
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+    <button data-hamburger aria-label="メニュー" style="display:none; margin-left:auto; width:48px; height:48px; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; padding:0;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0A0B0D" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+    </button>
+
+    <div data-mobile-menu style="display:none; position:absolute; top:88px; left:0; right:0; background:#fff; flex-direction:column; padding:12px 20px 24px; box-shadow:0 12px 24px rgba(0,0,0,0.10); z-index:99;">
+      <a href="#feature" style="padding:14px 4px; font-size:16px; font-weight:600; color:#0A0B0D; border-bottom:1px solid #EEE;">機能</a>
+      <a href="#benefits" style="padding:14px 4px; font-size:16px; font-weight:600; color:#0A0B0D; border-bottom:1px solid #EEE;">導入メリット</a>
+      <a href="#reason" style="padding:14px 4px; font-size:16px; font-weight:600; color:#0A0B0D; border-bottom:1px solid #EEE;">選ばれる理由</a>
+      <a href="#" style="padding:14px 4px; font-size:16px; font-weight:600; color:#0A0B0D; border-bottom:1px solid #EEE;">ラインナップ</a>
+      <a href="#flow" style="padding:14px 4px; font-size:16px; font-weight:600; color:#0A0B0D; border-bottom:1px solid #EEE;">導入フロー</a>
+      <a href="#faq" style="padding:14px 4px; font-size:16px; font-weight:600; color:#0A0B0D; border-bottom:1px solid #EEE;">よくあるご質問</a>
+      <a href="#" style="margin-top:16px; height:52px; border-radius:26px; background:#013bd8; color:#fff; display:flex; align-items:center; justify-content:center; gap:8px; font-size:15px; font-weight:600;">資料ダウンロード</a>
+      <a href="#" style="margin-top:10px; height:52px; border-radius:26px; background:#fff; border:1.5px solid #013bd8; color:#013bd8; display:flex; align-items:center; justify-content:center; gap:8px; font-size:15px; font-weight:600;">お問い合わせ</a>
+    </div>
+  </header>
+
+  <!-- ============ HERO (FV) ============ -->
+  <section data-screen-label="FV" data-comment-anchor="fv-hero" data-fv-grid style="position:relative; display:grid; grid-template-columns:760px 1fr; grid-template-areas:'text visual' 'cta visual'; align-items:start; min-height:820px; overflow:hidden;">
+
+    <!-- Background scene -->
+    <img data-fv-bg src="assets/fv-hero.png" alt="WORXHUBを使った会議シーン" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; z-index:0;">
+    <!-- White overlay -->
+    <div data-fv-overlay style="position:absolute; inset:0; z-index:1; background:linear-gradient(90deg, rgba(243,242,244,0.97) 0%, rgba(243,242,244,0.92) 42%, rgba(243,242,244,0.68) 100%);"></div>
+
+    <!-- Text -->
+    <div data-fv-text style="grid-area:text; position:relative; z-index:2; padding:112px 0 0 80px;">
+      <div style="font-size:13px; font-weight:700; letter-spacing:0.18em; color:#013bd8; margin-bottom:26px;">READY TO UPGRADE</div>
+      <h1 style="margin:0; font-size:64px; font-weight:800; line-height:1.26; letter-spacing:-0.01em; color:#0A0B0D; white-space:nowrap;">会議が変わる。<br>意思決定が速くなる。</h1>
+      <p style="margin:34px 0 0; font-size:18px; font-weight:500; line-height:1.9; color:#3A3D42;">ホワイトボード・Web会議・プレゼンテーションを<br>一台に統合した次世代コラボレーションディスプレイ。</p>
+      <p style="margin:20px 0 0; font-size:18px; font-weight:500; line-height:1.9; color:#3A3D42;">WORXHUBが、<br>会議室を &ldquo;成果が生まれる空間&rdquo;へ。</p>
+    </div>
+
+    <div data-fv-cta style="grid-area:cta; position:relative; z-index:2; padding:44px 0 80px 80px; display:flex; align-items:center; gap:16px;">
+        <a href="#" style="height:64px; padding:0 32px; border-radius:32px; background:#013bd8; color:#ffffff; display:flex; align-items:center; gap:12px; font-size:16px; font-weight:600;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+          資料ダウンロード
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:8px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="#" style="height:64px; padding:0 32px; border-radius:32px; background:#ffffff; border:1.5px solid #d5d8dd; color:#0A0B0D; display:flex; align-items:center; gap:12px; font-size:16px; font-weight:600;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+          お問い合わせ
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:8px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+    <!-- Right: device visual overlaid on scene (PC) -->
+    <div data-fv-visual style="grid-area:visual; position:relative; z-index:2; align-self:center; display:flex; align-items:center; justify-content:center; padding-right:20px;">
+      <img src="assets/fv-device.png" alt="WORXHUB 電子黒板本体" style="height:640px; width:auto; max-width:100%; object-fit:contain; display:block; filter:drop-shadow(0 24px 48px rgba(0,0,0,0.18));">
+    </div>
+
+    <!-- SP-only device visual (between text and CTA) -->
+    <div data-fv-sp style="grid-area:spvisual; position:relative; z-index:2; display:none; align-items:center; justify-content:center; padding:24px 20px 0;">
+      <img src="assets/fv-sp.png" alt="WORXHUB ホーム画面" style="width:100%; max-width:520px; height:auto; object-fit:contain; display:block; filter:drop-shadow(0 20px 40px rgba(0,0,0,0.22));">
+    </div>
+
+  </section>
+
+  <!-- ============ SECTION 2: その会議（課題） ============ -->
+  <section data-screen-label="Challenge" data-comment-anchor="challenge" style="padding:120px 40px; background:#f3f2f4;">
+    <div style="max-width:1240px; margin:0 auto;">
+
+      <!-- Heading -->
+      <div style="text-align:center; margin-bottom:56px;">
+        <div style="font-size:14px; font-weight:700; letter-spacing:0.1em; color:#013bd8;">Challenge</div>
+        <div style="width:32px; height:2px; background:#013bd8; margin:14px auto 28px;"></div>
+        <h2 style="margin:0; font-size:48px; font-weight:800; line-height:1.4; color:#0A0B0D;">その会議、<br>本当に生産的ですか？</h2>
+      </div>
+
+      <!-- 6 cards -->
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
+
+        <div data-issue-card style="background:#fff; border-radius:16px; padding:28px; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; gap:18px; align-items:stretch;">
+          <div style="flex:1; min-width:0;">
+            <h3 style="margin:0; font-size:20px; font-weight:700; line-height:1.4; color:#0A0B0D;">接続が遅い</h3>
+            <div style="width:28px; height:2px; background:#013bd8; margin:14px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.8; color:#3A3D42;">機器の接続や切り替えに時間がかかり、会議の開始が遅れる。</p>
+          </div>
+          <img src="assets/issue-1.png" alt="接続が遅い" style="width:190px; align-self:stretch; min-height:150px; object-fit:cover; border-radius:12px; flex-shrink:0;">
+        </div>
+
+        <div data-issue-card style="background:#fff; border-radius:16px; padding:28px; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; gap:18px; align-items:stretch;">
+          <div style="flex:1; min-width:0;">
+            <h3 style="margin:0; font-size:20px; font-weight:700; line-height:1.4; color:#0A0B0D;">Zoom準備が<br>面倒</h3>
+            <div style="width:28px; height:2px; background:#013bd8; margin:14px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.8; color:#3A3D42;">会議前の設定やアカウント確認など、準備に手間がかかる。</p>
+          </div>
+          <img src="assets/issue-2.png" alt="Zoom準備が面倒" style="width:190px; align-self:stretch; min-height:150px; object-fit:cover; border-radius:12px; flex-shrink:0;">
+        </div>
+
+        <div data-issue-card style="background:#fff; border-radius:16px; padding:28px; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; gap:18px; align-items:stretch;">
+          <div style="flex:1; min-width:0;">
+            <h3 style="margin:0; font-size:20px; font-weight:700; line-height:1.4; color:#0A0B0D;">資料共有が<br>できない</h3>
+            <div style="width:28px; height:2px; background:#013bd8; margin:14px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.8; color:#3A3D42;">ケーブルやドングルが必要で、スムーズに画面や資料を共有できない。</p>
+          </div>
+          <img src="assets/issue-3.png" alt="資料共有ができない" style="width:190px; align-self:stretch; min-height:150px; object-fit:cover; border-radius:12px; flex-shrink:0;">
+        </div>
+
+        <div data-issue-card style="background:#fff; border-radius:16px; padding:28px; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; gap:18px; align-items:stretch;">
+          <div style="flex:1; min-width:0;">
+            <h3 style="margin:0; font-size:20px; font-weight:700; line-height:1.4; color:#0A0B0D;">保存できない</h3>
+            <div style="width:28px; height:2px; background:#013bd8; margin:14px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.8; color:#3A3D42;">ホワイトボードの内容を保存できず、議事録や振り返りができない。</p>
+          </div>
+          <img src="assets/issue-4.png" alt="保存できない" style="width:190px; align-self:stretch; min-height:150px; object-fit:cover; border-radius:12px; flex-shrink:0;">
+        </div>
+
+        <div data-issue-card style="background:#fff; border-radius:16px; padding:28px; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; gap:18px; align-items:stretch;">
+          <div style="flex:1; min-width:0;">
+            <h3 style="margin:0; font-size:20px; font-weight:700; line-height:1.4; color:#0A0B0D;">発言者が偏る</h3>
+            <div style="width:28px; height:2px; background:#013bd8; margin:14px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.8; color:#3A3D42;">一部の人だけが発言し、他のメンバーが参加しづらい雰囲気になる。</p>
+          </div>
+          <img src="assets/issue-5.png" alt="発言者が偏る" style="width:190px; align-self:stretch; min-height:150px; object-fit:cover; border-radius:12px; flex-shrink:0;">
+        </div>
+
+        <div data-issue-card style="background:#fff; border-radius:16px; padding:28px; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; gap:18px; align-items:stretch;">
+          <div style="flex:1; min-width:0;">
+            <h3 style="margin:0; font-size:20px; font-weight:700; line-height:1.4; color:#0A0B0D;">拠点間会議が<br>非効率</h3>
+            <div style="width:28px; height:2px; background:#013bd8; margin:14px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.8; color:#3A3D42;">音声や映像が不安定で、意思疎通が難しく、会議が長引いてしまう。</p>
+          </div>
+          <img src="assets/issue-6.png" alt="拠点間会議が非効率" style="width:190px; align-self:stretch; min-height:150px; object-fit:cover; border-radius:12px; flex-shrink:0;">
+        </div>
+
+      </div>
+
+      <!-- Down arrow -->
+      <div style="display:flex; justify-content:center; margin:32px 0;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="20"/><polyline points="6 14 12 20 18 14"/></svg>
+      </div>
+
+      <!-- Solution banner -->
+      <div data-banner style="background:#fff; border-radius:20px; padding:40px 56px; display:flex; align-items:center; justify-content:center; gap:56px; box-shadow:0 2px 20px rgba(0,0,0,0.04);">
+        <div>
+          <div style="font-size:14px; font-weight:700; letter-spacing:0.08em; color:#013bd8; margin-bottom:10px;">WORXHUBなら</div>
+          <div style="font-size:44px; font-weight:800; line-height:1.3; color:#0A0B0D;">すべて一台で<span style="color:#013bd8;">解決。</span></div>
+        </div>
+        <p style="margin:0; font-size:15px; line-height:1.9; color:#3A3D42; text-align:left; flex-shrink:0;">会議に必要なすべてを、<br>一台へ。<br>シンプルに、生産的に。</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ CTA BAND 1 ============ -->
+  <section data-screen-label="Band" data-comment-anchor="band-1" style="padding:0 40px; background:#f3f2f4;">
+    <div style="max-width:1240px; margin:0 auto;">
+      <div style="background:#013bd8; border-radius:24px; padding:48px 64px; display:flex; align-items:center; justify-content:space-between; gap:40px;">
+        <div style="min-width:0;">
+          <div style="font-size:13px; font-weight:700; letter-spacing:0.12em; color:rgba(255,255,255,0.7); margin-bottom:12px;">SOLUTION</div>
+          <div style="font-size:30px; font-weight:800; line-height:1.4; color:#fff;">その課題、WORXHUB一台でまとめて解決。</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:16px; flex-shrink:0;">
+          <a href="#" style="height:60px; padding:0 30px; border-radius:30px; background:#fff; color:#013bd8; display:flex; align-items:center; gap:10px; font-size:16px; font-weight:600;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            資料ダウンロード
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#" style="height:60px; padding:0 30px; border-radius:30px; background:transparent; border:1.5px solid rgba(255,255,255,0.8); color:#fff; display:flex; align-items:center; gap:10px; font-size:16px; font-weight:600;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+            お問い合わせ
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 3: ALL-in-One ============ -->
+  <section data-screen-label="All-in-One" data-comment-anchor="all-in-one" style="padding:120px 40px; background:#f3f2f4;">
+    <div data-row style="max-width:1240px; margin:0 auto; display:flex; gap:56px; align-items:stretch;">
+
+      <!-- Left: scene visual -->
+      <div style="flex:0 0 48%; display:flex;">
+        <img src="assets/all-scene.png" alt="WORXHUBを使った会議シーン" style="width:100%; height:100%; min-height:720px; object-fit:cover; border-radius:16px; display:block;">
+      </div>
+
+      <!-- Right: content -->
+      <div style="flex:1; min-width:0;">
+        <div style="font-size:14px; font-weight:700; letter-spacing:0.12em; color:#013bd8; margin-bottom:20px;">WHY&nbsp;WORXHUB</div>
+        <h2 style="margin:0; font-size:56px; font-weight:800; line-height:1.15; letter-spacing:-0.01em; color:#0A0B0D;">All-in-One<br>Meeting Solution</h2>
+        <p style="margin:20px 0 32px; font-size:18px; font-weight:500; color:#3A3D42;">会議に必要なすべての機能を、これ一台で。</p>
+
+        <!-- 8 features grid -->
+        <div data-grid2 style="display:grid; grid-template-columns:repeat(2,1fr); gap:16px;">
+
+          <div style="background:#fff; border-radius:12px; padding:22px; box-shadow:0 2px 16px rgba(0,0,0,0.04); display:flex; gap:16px; align-items:flex-start;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="m8 21 4-4 4 4"/><path d="M9 9.5c.6-1 2.4-1 3 0"/><path d="m14 8-2.5 4.5"/></svg>
+            <div><div style="font-size:16px; font-weight:700; color:#0A0B0D;">電子黒板</div><div style="font-size:13px; line-height:1.6; color:#3A3D42; margin-top:4px;">直感的な書き込みとリアルタイム共有</div></div>
+          </div>
+
+          <div style="background:#fff; border-radius:12px; padding:22px; box-shadow:0 2px 16px rgba(0,0,0,0.04); display:flex; gap:16px; align-items:flex-start;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg>
+            <div><div style="font-size:16px; font-weight:700; color:#0A0B0D;">Web会議</div><div style="font-size:13px; line-height:1.6; color:#3A3D42; margin-top:4px;">主要なWeb会議ツールにワンタッチで接続</div></div>
+          </div>
+
+          <div style="background:#fff; border-radius:12px; padding:22px; box-shadow:0 2px 16px rgba(0,0,0,0.04); display:flex; gap:16px; align-items:flex-start;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M2 12a10 10 0 0 1 10 10"/><path d="M2 16a6 6 0 0 1 6 6"/><path d="M2 20a2 2 0 0 1 2 2"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+            <div><div style="font-size:16px; font-weight:700; color:#0A0B0D;">ワイヤレス投影</div><div style="font-size:13px; line-height:1.6; color:#3A3D42; margin-top:4px;">ケーブルレスで簡単に画面共有</div></div>
+          </div>
+
+          <div style="background:#fff; border-radius:12px; padding:22px; box-shadow:0 2px 16px rgba(0,0,0,0.04); display:flex; gap:16px; align-items:flex-start;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/></svg>
+            <div><div style="font-size:16px; font-weight:700; color:#0A0B0D;">高性能カメラ</div><div style="font-size:13px; line-height:1.6; color:#3A3D42; margin-top:4px;">AIオートフレーミングで最適な映像を実現</div></div>
+          </div>
+
+          <div style="background:#fff; border-radius:12px; padding:22px; box-shadow:0 2px 16px rgba(0,0,0,0.04); display:flex; gap:16px; align-items:flex-start;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+            <div><div style="font-size:16px; font-weight:700; color:#0A0B0D;">マイク</div><div style="font-size:13px; line-height:1.6; color:#3A3D42; margin-top:4px;">クリアな音声でスムーズな会話</div></div>
+          </div>
+
+          <div style="background:#fff; border-radius:12px; padding:22px; box-shadow:0 2px 16px rgba(0,0,0,0.04); display:flex; gap:16px; align-items:flex-start;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+            <div><div style="font-size:16px; font-weight:700; color:#0A0B0D;">スピーカー</div><div style="font-size:13px; line-height:1.6; color:#3A3D42; margin-top:4px;">臨場感ある高音質で会議に集中</div></div>
+          </div>
+
+          <div style="background:#fff; border-radius:12px; padding:22px; box-shadow:0 2px 16px rgba(0,0,0,0.04); display:flex; gap:16px; align-items:flex-start;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M3 5.5 10.5 4.5v7H3z"/><path d="M13 4.2 21 3v8.5h-8z"/><path d="M3 12.5h7.5v7L3 18.5z"/><path d="M13 12.5h8V21l-8-1.2z"/></svg>
+            <div><div style="font-size:16px; font-weight:700; color:#0A0B0D;">Windows</div><div style="font-size:13px; line-height:1.6; color:#3A3D42; margin-top:4px;">Windows OS搭載で柔軟な拡張性</div></div>
+          </div>
+
+          <div style="background:#fff; border-radius:12px; padding:22px; box-shadow:0 2px 16px rgba(0,0,0,0.04); display:flex; gap:16px; align-items:flex-start;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M5 16V10a7 7 0 0 1 14 0v6z"/><path d="M3 16h18"/><line x1="8" y1="6" x2="6.5" y2="4"/><line x1="16" y1="6" x2="17.5" y2="4"/><line x1="9" y1="12" x2="9" y2="12.01"/><line x1="15" y1="12" x2="15" y2="12.01"/></svg>
+            <div><div style="font-size:16px; font-weight:700; color:#0A0B0D;">Android</div><div style="font-size:13px; line-height:1.6; color:#3A3D42; margin-top:4px;">Android OS対応でアプリ利用もスムーズ</div></div>
+          </div>
+
+        </div>
+
+        <!-- Closing copy -->
+        <div style="margin-top:40px;">
+          <span style="display:inline-block; font-size:40px; font-weight:800; line-height:1.3; color:#0A0B0D; border-bottom:3px solid #013bd8; padding-bottom:6px;">これらを一台へ。</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ SECTION 4: 機能（4機能） ============ -->
+  <section id="feature" data-screen-label="Feature" data-comment-anchor="feature" style="padding:120px 40px; background:#f3f2f4; scroll-margin-top:88px;">
+    <div style="max-width:1240px; margin:0 auto;">
+
+      <!-- Heading -->
+      <div style="text-align:center; margin-bottom:56px;">
+        <div style="font-size:14px; font-weight:700; letter-spacing:0.12em; color:#013bd8;">FEATURE</div>
+        <div style="width:32px; height:2px; background:#013bd8; margin:14px auto 28px;"></div>
+        <h2 style="margin:0; font-size:48px; font-weight:800; line-height:1.4; color:#0A0B0D;">4つの機能で、すべての会議をスマートに。</h2>
+        <p style="margin:18px 0 0; font-size:18px; font-weight:500; color:#3A3D42;">会議に必要なすべてを、これ一台で。</p>
+      </div>
+
+      <!-- 4 feature cards -->
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:24px;">
+
+        <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; flex-direction:column;">
+          <div style="padding:28px;">
+            <div style="font-size:15px; font-weight:700; color:#013bd8;">Feature01</div>
+            <div style="font-size:28px; font-weight:800; color:#0A0B0D; margin-top:10px;">書く</div>
+            <div style="width:28px; height:2px; background:#013bd8; margin:16px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.9; color:#3A3D42;">4K大画面タッチディスプレイで<br>自然な書き心地</p>
+          </div>
+          <img src="assets/feature-1.png" alt="書く" style="width:100%; height:320px; object-fit:cover; display:block; margin-top:auto;">
+        </div>
+
+        <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; flex-direction:column;">
+          <div style="padding:28px;">
+            <div style="font-size:15px; font-weight:700; color:#013bd8;">Feature02</div>
+            <div style="font-size:28px; font-weight:800; color:#0A0B0D; margin-top:10px;">つなぐ</div>
+            <div style="width:28px; height:2px; background:#013bd8; margin:16px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.9; color:#3A3D42;">ワイヤレス投影で<br>PC・スマホから瞬時に共有</p>
+          </div>
+          <img src="assets/feature-2.png" alt="つなぐ" style="width:100%; height:320px; object-fit:cover; display:block; margin-top:auto;">
+        </div>
+
+        <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; flex-direction:column;">
+          <div style="padding:28px;">
+            <div style="font-size:15px; font-weight:700; color:#013bd8;">Feature03</div>
+            <div style="font-size:28px; font-weight:800; color:#0A0B0D; margin-top:10px;">話す</div>
+            <div style="width:28px; height:2px; background:#013bd8; margin:16px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.9; color:#3A3D42;">AIノイズキャンセル<br>高性能マイク<br>4Kカメラ</p>
+          </div>
+          <img src="assets/feature-3.png" alt="話す" style="width:100%; height:320px; object-fit:cover; display:block; margin-top:auto;">
+        </div>
+
+        <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; flex-direction:column;">
+          <div style="padding:28px;">
+            <div style="font-size:15px; font-weight:700; color:#013bd8;">Feature04</div>
+            <div style="font-size:28px; font-weight:800; color:#0A0B0D; margin-top:10px;">保存する</div>
+            <div style="width:28px; height:2px; background:#013bd8; margin:16px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.9; color:#3A3D42;">会議内容をその場で共有</p>
+          </div>
+          <img src="assets/feature-4.png" alt="保存する" style="width:100%; height:320px; object-fit:cover; display:block; margin-top:auto;">
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ SECTION 5: 導入メリット ============ -->
+  <section id="benefits" data-screen-label="Benefits" data-comment-anchor="benefits" style="padding:120px 40px; background:#f3f2f4; scroll-margin-top:88px;">
+    <div style="max-width:1240px; margin:0 auto;">
+
+      <!-- Heading -->
+      <div style="text-align:center; margin-bottom:56px;">
+        <div style="font-size:14px; font-weight:700; letter-spacing:0.12em; color:#013bd8;">BENEFITS</div>
+        <div style="width:32px; height:2px; background:#013bd8; margin:14px auto 28px;"></div>
+        <h2 style="margin:0; font-size:52px; font-weight:800; color:#0A0B0D;">導入メリット</h2>
+        <p style="margin:18px 0 0; font-size:18px; font-weight:500; color:#3A3D42;">会議の生産性を高め、ビジネスのスピードを加速させます。</p>
+      </div>
+
+      <!-- 4 benefit cards -->
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:24px;">
+
+        <!-- 1 -->
+        <div style="background:#fff; border-radius:16px; padding:40px 28px; box-shadow:0 2px 20px rgba(0,0,0,0.04); text-align:center; display:flex; flex-direction:column; align-items:center;">
+          <div style="height:100px; display:flex; align-items:center;">
+            <svg width="88" height="88" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><polyline points="12 8.5 12 13 15 15"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="9" y1="2.5" x2="15" y2="2.5"/></svg>
+          </div>
+          <div style="height:150px; display:flex; flex-direction:column; align-items:center;">
+            <div style="font-size:16px; font-weight:700; color:#0A0B0D; height:56px; display:flex; align-items:center;">準備時間</div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
+              <div style="display:flex; align-items:baseline; justify-content:center; gap:2px;">
+                <span style="font-size:18px; font-weight:700; color:#0A0B0D;">最大</span>
+                <span style="font-size:64px; font-weight:800; line-height:1; color:#013bd8;">90</span>
+                <span style="font-size:26px; font-weight:800; color:#013bd8;">%</span>
+              </div>
+              <div style="font-size:28px; font-weight:800; color:#0A0B0D; margin-top:4px;">削減</div>
+            </div>
+          </div>
+          <div style="width:100%; height:1px; background:#E5E6E9; margin:0 0 24px;"></div>
+          <p style="margin:0; font-size:14px; line-height:1.8; color:#3A3D42;">会議の準備・片付け時間を大幅に短縮できます。</p>
+        </div>
+
+        <!-- 2 -->
+        <div style="background:#fff; border-radius:16px; padding:40px 28px; box-shadow:0 2px 20px rgba(0,0,0,0.04); text-align:center; display:flex; flex-direction:column; align-items:center;">
+          <div style="height:100px; display:flex; align-items:center;">
+            <svg width="88" height="88" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v4"/><path d="M15 3v4"/><path d="M6 7h12v3a6 6 0 0 1-6 6 6 6 0 0 1-6-6z"/><path d="M12 16v5"/><line x1="3.5" y1="3.5" x2="20.5" y2="20.5"/></svg>
+          </div>
+          <div style="height:150px; display:flex; flex-direction:column; align-items:center;">
+            <div style="font-size:16px; font-weight:700; color:#0A0B0D; height:56px; display:flex; align-items:center;">配線ゼロ</div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
+              <div style="font-size:26px; font-weight:800; line-height:1.4;"><span style="color:#013bd8;">ケーブル不要で</span><br><span style="color:#0A0B0D;">すっきり快適</span></div>
+            </div>
+          </div>
+          <div style="width:100%; height:1px; background:#E5E6E9; margin:0 0 24px;"></div>
+          <p style="margin:0; font-size:14px; line-height:1.8; color:#3A3D42;">ワイヤレス接続で、会議室をスマートに。</p>
+        </div>
+
+        <!-- 3 -->
+        <div style="background:#fff; border-radius:16px; padding:40px 28px; box-shadow:0 2px 20px rgba(0,0,0,0.04); text-align:center; display:flex; flex-direction:column; align-items:center;">
+          <div style="height:100px; display:flex; align-items:center;">
+            <svg width="88" height="88" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><polyline points="4 16 9 11 13 14 20 6"/><polyline points="15 6 20 6 20 11"/></svg>
+          </div>
+          <div style="height:150px; display:flex; flex-direction:column; align-items:center;">
+            <div style="font-size:16px; font-weight:700; color:#0A0B0D; height:56px; display:flex; align-items:center;">会議効率向上</div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
+              <div style="display:flex; align-items:baseline; justify-content:center; gap:2px;">
+                <span style="font-size:64px; font-weight:800; line-height:1; color:#013bd8;">30</span>
+                <span style="font-size:26px; font-weight:800; color:#013bd8;">%</span>
+              </div>
+              <div style="font-size:28px; font-weight:800; color:#0A0B0D; margin-top:4px;">向上</div>
+            </div>
+          </div>
+          <div style="width:100%; height:1px; background:#E5E6E9; margin:0 0 24px;"></div>
+          <p style="margin:0; font-size:14px; line-height:1.8; color:#3A3D42;">情報共有がスムーズになり、会議の生産性が向上します。</p>
+        </div>
+
+        <!-- 4 -->
+        <div style="background:#fff; border-radius:16px; padding:40px 28px; box-shadow:0 2px 20px rgba(0,0,0,0.04); text-align:center; display:flex; flex-direction:column; align-items:center;">
+          <div style="height:100px; display:flex; align-items:center;">
+            <svg width="88" height="88" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><circle cx="12" cy="9" r="2"/><path d="M8 14c.8-1.5 2.2-2.2 4-2.2s3.2.7 4 2.2"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="12" y1="17" x2="12" y2="20"/></svg>
+          </div>
+          <div style="height:150px; display:flex; flex-direction:column; align-items:center;">
+            <div style="font-size:16px; font-weight:700; color:#0A0B0D; height:56px; display:flex; align-items:center;">Web会議品質向上</div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
+              <div style="display:flex; align-items:baseline; justify-content:center; gap:2px;">
+                <span style="font-size:64px; font-weight:800; line-height:1; color:#013bd8;">4</span>
+                <span style="font-size:32px; font-weight:800; color:#013bd8;">K</span>
+              </div>
+              <div style="font-size:22px; font-weight:800; color:#0A0B0D; margin-top:4px;">高画質・高音質</div>
+            </div>
+          </div>
+          <div style="width:100%; height:1px; background:#E5E6E9; margin:0 0 24px;"></div>
+          <p style="margin:0; font-size:14px; line-height:1.8; color:#3A3D42;">クリアな映像と音声で、オンライン会議の質を向上。</p>
+        </div>
+
+      </div>
+
+      <!-- Note -->
+      <p style="margin:40px 0 0; text-align:center; font-size:13px; color:#7A7D82;">※効果はご利用環境や運用により異なります。</p>
+
+    </div>
+  </section>
+
+  <!-- ============ CTA BAND 2 ============ -->
+  <section data-screen-label="Band" data-comment-anchor="band-2" style="padding:0 40px; background:#f3f2f4;">
+    <div style="max-width:1240px; margin:0 auto;">
+      <div style="background:#013bd8; border-radius:24px; padding:48px 64px; display:flex; align-items:center; justify-content:space-between; gap:40px;">
+        <div style="min-width:0;">
+          <div style="font-size:13px; font-weight:700; letter-spacing:0.12em; color:rgba(255,255,255,0.7); margin-bottom:12px;">DOCUMENT</div>
+          <div style="font-size:30px; font-weight:800; line-height:1.4; color:#fff;">自社の会議にどう活きるか、資料でご確認ください。</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:16px; flex-shrink:0;">
+          <a href="#" style="height:60px; padding:0 30px; border-radius:30px; background:#fff; color:#013bd8; display:flex; align-items:center; gap:10px; font-size:16px; font-weight:600;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            資料ダウンロード
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 6: 利用シーン ============ -->
+  <section id="scene" data-screen-label="Scene" data-comment-anchor="scene" style="padding:120px 40px; background:#f3f2f4; scroll-margin-top:88px;">
+    <div style="max-width:1240px; margin:0 auto;">
+
+      <!-- Heading -->
+      <div style="text-align:center; margin-bottom:56px;">
+        <div style="font-size:14px; font-weight:700; letter-spacing:0.12em; color:#013bd8;">SCENE</div>
+        <div style="width:32px; height:2px; background:#013bd8; margin:14px auto 28px;"></div>
+        <h2 style="margin:0; font-size:52px; font-weight:800; color:#0A0B0D;">利用シーン</h2>
+        <p style="margin:18px 0 0; font-size:18px; font-weight:500; color:#3A3D42;">さまざまなシーンで、チームの生産性を最大化。</p>
+      </div>
+
+      <!-- 4 scene cards -->
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:24px;">
+
+        <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; flex-direction:column;">
+          <div style="padding:28px; height:170px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="9" cy="8" r="2.5"/><circle cx="16" cy="8.5" r="2"/><path d="M4 18v-1a5 5 0 0 1 10 0v1"/><path d="M15 13.5a4 4 0 0 1 5 3.5v1"/></svg>
+              <div style="font-size:22px; font-weight:700; color:#0A0B0D;">会議室</div>
+            </div>
+            <div style="width:28px; height:2px; background:#013bd8; margin:14px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.9; color:#3A3D42;">会議やプレゼンを効率的に。チームの意思決定を加速します。</p>
+          </div>
+          <img src="assets/scene-1.png" alt="会議室" style="width:100%; height:300px; object-fit:cover; display:block; margin-top:auto;">
+        </div>
+
+        <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; flex-direction:column;">
+          <div style="padding:28px; height:170px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M3 6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H8l-4 3v-3H5a2 2 0 0 1-2-2z"/><path d="M17 9h2a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1v3l-3-3"/></svg>
+              <div style="font-size:22px; font-weight:700; color:#0A0B0D;">応接室</div>
+            </div>
+            <div style="width:28px; height:2px; background:#013bd8; margin:14px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.9; color:#3A3D42;">お客様との打ち合わせをよりスムーズに、スマートに。</p>
+          </div>
+          <img src="assets/scene-2.png" alt="応接室" style="width:100%; height:300px; object-fit:cover; display:block; margin-top:auto;">
+        </div>
+
+        <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; flex-direction:column;">
+          <div style="padding:28px; height:170px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="4" y="3" width="16" height="11" rx="1.5"/><line x1="12" y1="14" x2="12" y2="18"/><circle cx="12" cy="20" r="1.6"/><polyline points="8 10 11 7 13 9 16 6"/></svg>
+              <div style="font-size:22px; font-weight:700; color:#0A0B0D;">セミナー</div>
+            </div>
+            <div style="width:28px; height:2px; background:#013bd8; margin:14px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.9; color:#3A3D42;">大人数へのプレゼンや研修もクリアな映像と音声でサポート。</p>
+          </div>
+          <img src="assets/scene-3.png" alt="セミナー" style="width:100%; height:300px; object-fit:cover; display:block; margin-top:auto;">
+        </div>
+
+        <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; flex-direction:column;">
+          <div style="padding:28px; height:170px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5"/><path d="M12 6.5C13.5 5 16 4.5 20 5v13c-4-.5-6.5 0-8 1.5"/><line x1="12" y1="6.5" x2="12" y2="19.5"/></svg>
+              <div style="font-size:22px; font-weight:700; color:#0A0B0D;">教育研修</div>
+            </div>
+            <div style="width:28px; height:2px; background:#013bd8; margin:14px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.9; color:#3A3D42;">インタラクティブな研修で、学びの効果を最大化。</p>
+          </div>
+          <img src="assets/scene-4.png" alt="教育研修" style="width:100%; height:300px; object-fit:cover; display:block; margin-top:auto;">
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ SECTION 7: 選ばれる理由 ============ -->
+  <section id="reason" data-screen-label="Reason" data-comment-anchor="reason" style="padding:120px 40px; background:#f3f2f4; scroll-margin-top:88px;">
+    <div style="max-width:1240px; margin:0 auto;">
+
+      <!-- Heading -->
+      <div style="text-align:center; margin-bottom:56px;">
+        <div style="font-size:14px; font-weight:700; letter-spacing:0.12em; color:#013bd8;">REASON</div>
+        <div style="width:32px; height:2px; background:#013bd8; margin:14px auto 28px;"></div>
+        <h2 style="margin:0; font-size:52px; font-weight:800; color:#0A0B0D;">選ばれる理由</h2>
+        <p style="margin:18px 0 0; font-size:18px; font-weight:500; color:#3A3D42;">WORXHUBは、使いやすさと信頼性で多くの企業に選ばれています。</p>
+      </div>
+
+      <!-- 4 reason cards -->
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:24px;">
+
+        <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; flex-direction:column;">
+          <div style="padding:28px; height:180px;">
+            <div style="font-size:15px; font-weight:700; color:#013bd8;">01</div>
+            <div style="font-size:28px; font-weight:800; color:#0A0B0D; margin-top:8px;">導入しやすい</div>
+            <div style="width:28px; height:2px; background:#013bd8; margin:16px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.9; color:#3A3D42;">設置からサポートまで対応</p>
+          </div>
+          <img src="assets/reason-1.png" alt="導入しやすい" style="width:100%; height:300px; object-fit:cover; display:block; margin-top:auto;">
+        </div>
+
+        <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; flex-direction:column;">
+          <div style="padding:28px; height:180px;">
+            <div style="font-size:15px; font-weight:700; color:#013bd8;">02</div>
+            <div style="font-size:28px; font-weight:800; color:#0A0B0D; margin-top:8px;">高品質</div>
+            <div style="width:28px; height:2px; background:#013bd8; margin:16px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.9; color:#3A3D42;">4Kディスプレイ</p>
+          </div>
+          <img src="assets/reason-2.png" alt="高品質" style="width:100%; height:300px; object-fit:cover; display:block; margin-top:auto;">
+        </div>
+
+        <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; flex-direction:column;">
+          <div style="padding:28px; height:180px;">
+            <div style="font-size:15px; font-weight:700; color:#013bd8;">03</div>
+            <div style="font-size:28px; font-weight:800; color:#0A0B0D; margin-top:8px;">シンプル</div>
+            <div style="width:28px; height:2px; background:#013bd8; margin:16px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.9; color:#3A3D42;">誰でも使えるUI</p>
+          </div>
+          <img src="assets/reason-3.png" alt="シンプル" style="width:100%; height:300px; object-fit:cover; display:block; margin-top:auto;">
+        </div>
+
+        <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(0,0,0,0.04); display:flex; flex-direction:column;">
+          <div style="padding:28px; height:180px;">
+            <div style="font-size:15px; font-weight:700; color:#013bd8;">04</div>
+            <div style="font-size:28px; font-weight:800; color:#0A0B0D; margin-top:8px;">安心</div>
+            <div style="width:28px; height:2px; background:#013bd8; margin:16px 0;"></div>
+            <p style="margin:0; font-size:14px; line-height:1.9; color:#3A3D42;">国内サポート</p>
+          </div>
+          <img src="assets/reason-4.png" alt="安心" style="width:100%; height:300px; object-fit:cover; display:block; margin-top:auto;">
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ SECTION 8: 導入フロー ============ -->
+  <section id="flow" data-screen-label="Flow" data-comment-anchor="flow" style="padding:120px 40px; background:#f3f2f4; scroll-margin-top:88px;">
+    <div style="max-width:1240px; margin:0 auto;">
+
+      <!-- Heading -->
+      <div style="text-align:center; margin-bottom:56px;">
+        <div style="font-size:14px; font-weight:700; letter-spacing:0.12em; color:#013bd8;">FLOW</div>
+        <div style="width:32px; height:2px; background:#013bd8; margin:14px auto 28px;"></div>
+        <h2 style="margin:0; font-size:52px; font-weight:800; color:#0A0B0D;">導入フロー</h2>
+        <p style="margin:18px 0 0; font-size:18px; font-weight:500; color:#3A3D42;">お問い合わせから運用開始まで、専任スタッフが丁寧にサポートします。</p>
+      </div>
+
+      <!-- 5 step cards with arrows -->
+      <div data-flow style="display:flex; align-items:stretch; gap:10px;">
+
+        <!-- STEP 1 -->
+        <div style="flex:1; background:#fff; border-radius:16px; padding:28px 20px; box-shadow:0 2px 20px rgba(0,0,0,0.04); text-align:center; display:flex; flex-direction:column; align-items:center;">
+          <div style="height:160px; display:flex; flex-direction:column; align-items:center;">
+            <div style="font-size:14px; font-weight:700; color:#013bd8;">STEP 1</div>
+            <div style="font-size:20px; font-weight:800; color:#0A0B0D; margin-top:8px;">お問い合わせ</div>
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="margin:auto 0;"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+          </div>
+          <img src="assets/flow-1.png" alt="お問い合わせ" style="width:100%; height:150px; object-fit:cover; border-radius:12px; display:block; margin:16px 0;">
+          <p style="margin:0; font-size:13px; line-height:1.8; color:#3A3D42;">フォームよりお気軽にご連絡ください。</p>
+        </div>
+
+        <div data-flow-arrow style="display:flex; align-items:center; flex-shrink:0;">
+          <div style="width:40px; height:40px; border-radius:50%; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,0.06); display:flex; align-items:center; justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div style="flex:1; background:#fff; border-radius:16px; padding:28px 20px; box-shadow:0 2px 20px rgba(0,0,0,0.04); text-align:center; display:flex; flex-direction:column; align-items:center;">
+          <div style="height:160px; display:flex; flex-direction:column; align-items:center;">
+            <div style="font-size:14px; font-weight:700; color:#013bd8;">STEP 2</div>
+            <div style="font-size:20px; font-weight:800; color:#0A0B0D; margin-top:8px;">ヒアリング</div>
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="margin:auto 0;"><path d="M21 5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3v4l5-4h8a1 1 0 0 0 1-1z"/><line x1="7" y1="8.5" x2="17" y2="8.5"/><line x1="7" y1="11.5" x2="13" y2="11.5"/></svg>
+          </div>
+          <img src="assets/flow-2.png" alt="ヒアリング" style="width:100%; height:150px; object-fit:cover; border-radius:12px; display:block; margin:16px 0;">
+          <p style="margin:0; font-size:13px; line-height:1.8; color:#3A3D42;">課題やご要望を丁寧にヒアリングします。</p>
+        </div>
+
+        <div data-flow-arrow style="display:flex; align-items:center; flex-shrink:0;">
+          <div style="width:40px; height:40px; border-radius:50%; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,0.06); display:flex; align-items:center; justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div style="flex:1; background:#fff; border-radius:16px; padding:28px 20px; box-shadow:0 2px 20px rgba(0,0,0,0.04); text-align:center; display:flex; flex-direction:column; align-items:center;">
+          <div style="height:160px; display:flex; flex-direction:column; align-items:center;">
+            <div style="font-size:14px; font-weight:700; color:#013bd8;">STEP 3</div>
+            <div style="font-size:20px; font-weight:800; color:#0A0B0D; margin-top:8px;">デモ・ご提案</div>
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="margin:auto 0;"><rect x="3" y="4" width="18" height="13" rx="1.5"/><line x1="12" y1="17" x2="12" y2="20"/><line x1="8" y1="20" x2="16" y2="20"/><polyline points="7 12 10 9 12.5 11 16.5 7"/></svg>
+          </div>
+          <img src="assets/flow-3.png" alt="デモ・ご提案" style="width:100%; height:150px; object-fit:cover; border-radius:12px; display:block; margin:16px 0;">
+          <p style="margin:0; font-size:13px; line-height:1.8; color:#3A3D42;">デモをご体験いただき、最適なプランをご提案します。</p>
+        </div>
+
+        <div data-flow-arrow style="display:flex; align-items:center; flex-shrink:0;">
+          <div style="width:40px; height:40px; border-radius:50%; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,0.06); display:flex; align-items:center; justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div style="flex:1; background:#fff; border-radius:16px; padding:28px 20px; box-shadow:0 2px 20px rgba(0,0,0,0.04); text-align:center; display:flex; flex-direction:column; align-items:center;">
+          <div style="height:160px; display:flex; flex-direction:column; align-items:center;">
+            <div style="font-size:14px; font-weight:700; color:#013bd8;">STEP 4</div>
+            <div style="font-size:20px; font-weight:800; color:#0A0B0D; margin-top:8px;">納品・設置</div>
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="margin:auto 0;"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4l-6.3 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6a1 1 0 0 1-1.4 0l-1.6-1.6a1 1 0 0 1 0-1.4z"/></svg>
+          </div>
+          <img src="assets/flow-4.png" alt="納品・設置" style="width:100%; height:150px; object-fit:cover; border-radius:12px; display:block; margin:16px 0;">
+          <p style="margin:0; font-size:13px; line-height:1.8; color:#3A3D42;">専門スタッフが納品・設置を行います。</p>
+        </div>
+
+        <div data-flow-arrow style="display:flex; align-items:center; flex-shrink:0;">
+          <div style="width:40px; height:40px; border-radius:50%; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,0.06); display:flex; align-items:center; justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div style="flex:1; background:#fff; border-radius:16px; padding:28px 20px; box-shadow:0 2px 20px rgba(0,0,0,0.04); text-align:center; display:flex; flex-direction:column; align-items:center;">
+          <div style="height:160px; display:flex; flex-direction:column; align-items:center;">
+            <div style="font-size:14px; font-weight:700; color:#013bd8;">STEP 5</div>
+            <div style="font-size:20px; font-weight:800; color:#0A0B0D; margin-top:8px;">運用開始</div>
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="margin:auto 0;"><circle cx="12" cy="12" r="9"/><polygon points="10 8.5 16 12 10 15.5 10 8.5"/></svg>
+          </div>
+          <img src="assets/flow-5.png" alt="運用開始" style="width:100%; height:150px; object-fit:cover; border-radius:12px; display:block; margin:16px 0;">
+          <p style="margin:0; font-size:13px; line-height:1.8; color:#3A3D42;">運用サポートやトレーニングでスムーズな活用を支援します。</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ CTA BAND 3 ============ -->
+  <section data-screen-label="Band" data-comment-anchor="band-3" style="padding:0 40px; background:#f3f2f4;">
+    <div style="max-width:1240px; margin:0 auto;">
+      <div style="background:#013bd8; border-radius:24px; padding:48px 64px; display:flex; align-items:center; justify-content:space-between; gap:40px;">
+        <div style="min-width:0;">
+          <div style="font-size:13px; font-weight:700; letter-spacing:0.12em; color:rgba(255,255,255,0.7); margin-bottom:12px;">CONTACT</div>
+          <div style="font-size:30px; font-weight:800; line-height:1.4; color:#fff;">導入のご相談・お見積りはお気軽に。</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:16px; flex-shrink:0;">
+          <a href="#" style="height:60px; padding:0 30px; border-radius:30px; background:#fff; color:#013bd8; display:flex; align-items:center; gap:10px; font-size:16px; font-weight:600;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+            お問い合わせ
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#" style="height:60px; padding:0 30px; border-radius:30px; background:transparent; border:1.5px solid rgba(255,255,255,0.8); color:#fff; display:flex; align-items:center; gap:10px; font-size:16px; font-weight:600;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            資料ダウンロード
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 8.5: よくあるご質問 (FAQ) ============ -->
+  <section id="faq" data-screen-label="FAQ" data-comment-anchor="faq" style="padding:120px 40px; background:#f3f2f4; scroll-margin-top:88px;">
+    <div style="max-width:1160px; margin:0 auto;">
+
+      <!-- Heading -->
+      <div style="text-align:center; margin-bottom:48px;">
+        <div style="font-size:14px; font-weight:700; letter-spacing:0.12em; color:#013bd8;">FAQ</div>
+        <div style="width:32px; height:2px; background:#013bd8; margin:14px auto 28px;"></div>
+        <h2 style="margin:0; font-size:52px; font-weight:800; color:#0A0B0D;">よくあるご質問</h2>
+        <p style="margin:18px 0 0; font-size:18px; font-weight:500; color:#3A3D42;">導入前によくいただくご質問をまとめました。</p>
+      </div>
+
+      <!-- FAQ list -->
+      <div style="display:flex; flex-direction:column; gap:16px;">
+
+        <div data-faq style="background:#fff; border-radius:12px; box-shadow:0 2px 16px rgba(0,0,0,0.04); overflow:hidden;">
+          <div data-faq-head style="min-height:76px; padding:20px 32px; display:flex; align-items:center; gap:24px; cursor:pointer;">
+            <div style="display:flex; align-items:center; gap:24px; flex:1; min-width:0;">
+              <span style="font-size:24px; font-weight:800; color:#013bd8;">Q</span>
+              <span style="width:1px; height:28px; background:#E5E6E9; flex-shrink:0;"></span>
+              <span style="font-size:18px; font-weight:700; color:#0A0B0D;">Microsoft Teamsは使えますか？</span>
+            </div>
+            <svg data-faq-chevron width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.3s ease; flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div data-faq-answer style="max-height:0; overflow:hidden; transition:max-height 0.4s ease;">
+            <p style="margin:0; padding:0 32px 28px 96px; font-size:14px; line-height:1.9; color:#3A3D42;">対応しています。ワンタッチでMicrosoft Teams会議に参加でき、面倒な設定は不要です。</p>
+          </div>
+        </div>
+
+        <div data-faq style="background:#fff; border-radius:12px; box-shadow:0 2px 16px rgba(0,0,0,0.04); overflow:hidden;">
+          <div data-faq-head style="min-height:76px; padding:20px 32px; display:flex; align-items:center; gap:24px; cursor:pointer;">
+            <div style="display:flex; align-items:center; gap:24px; flex:1; min-width:0;">
+              <span style="font-size:24px; font-weight:800; color:#013bd8;">Q</span>
+              <span style="width:1px; height:28px; background:#E5E6E9; flex-shrink:0;"></span>
+              <span style="font-size:18px; font-weight:700; color:#0A0B0D;">Zoom対応していますか？</span>
+            </div>
+            <svg data-faq-chevron width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.3s ease; flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div data-faq-answer style="max-height:0; overflow:hidden; transition:max-height 0.4s ease;">
+            <p style="margin:0; padding:0 32px 28px 96px; font-size:14px; line-height:1.9; color:#3A3D42;">対応しています。Zoomをはじめ、主要なWeb会議ツールにワンタッチで接続できます。</p>
+          </div>
+        </div>
+
+        <div data-faq style="background:#fff; border-radius:12px; box-shadow:0 2px 16px rgba(0,0,0,0.04); overflow:hidden;">
+          <div data-faq-head style="min-height:76px; padding:20px 32px; display:flex; align-items:center; gap:24px; cursor:pointer;">
+            <div style="display:flex; align-items:center; gap:24px; flex:1; min-width:0;">
+              <span style="font-size:24px; font-weight:800; color:#013bd8;">Q</span>
+              <span style="width:1px; height:28px; background:#E5E6E9; flex-shrink:0;"></span>
+              <span style="font-size:18px; font-weight:700; color:#0A0B0D;">オンライン会議できますか？</span>
+            </div>
+            <svg data-faq-chevron width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.3s ease; flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div data-faq-answer style="max-height:0; overflow:hidden; transition:max-height 0.4s ease;">
+            <p style="margin:0; padding:0 32px 28px 96px; font-size:14px; line-height:1.9; color:#3A3D42;">可能です。高性能カメラ・マイク・スピーカーを内蔵しており、本体一台でオンライン会議が完結します。</p>
+          </div>
+        </div>
+
+        <div data-faq style="background:#fff; border-radius:12px; box-shadow:0 2px 16px rgba(0,0,0,0.04); overflow:hidden;">
+          <div data-faq-head style="min-height:76px; padding:20px 32px; display:flex; align-items:center; gap:24px; cursor:pointer;">
+            <div style="display:flex; align-items:center; gap:24px; flex:1; min-width:0;">
+              <span style="font-size:24px; font-weight:800; color:#013bd8;">Q</span>
+              <span style="width:1px; height:28px; background:#E5E6E9; flex-shrink:0;"></span>
+              <span style="font-size:18px; font-weight:700; color:#0A0B0D;">設置工事は必要ですか？</span>
+            </div>
+            <svg data-faq-chevron width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.3s ease; flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div data-faq-answer style="max-height:0; overflow:hidden; transition:max-height 0.4s ease;">
+            <p style="margin:0; padding:0 32px 28px 96px; font-size:14px; line-height:1.9; color:#3A3D42;">基本的に不要です。移動式スタンドですぐにご利用いただけます。壁掛け設置をご希望の場合はご相談ください。</p>
+          </div>
+        </div>
+
+        <div data-faq style="background:#fff; border-radius:12px; box-shadow:0 2px 16px rgba(0,0,0,0.04); overflow:hidden;">
+          <div data-faq-head style="min-height:76px; padding:20px 32px; display:flex; align-items:center; gap:24px; cursor:pointer;">
+            <div style="display:flex; align-items:center; gap:24px; flex:1; min-width:0;">
+              <span style="font-size:24px; font-weight:800; color:#013bd8;">Q</span>
+              <span style="width:1px; height:28px; background:#E5E6E9; flex-shrink:0;"></span>
+              <span style="font-size:18px; font-weight:700; color:#0A0B0D;">保守はありますか？</span>
+            </div>
+            <svg data-faq-chevron width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.3s ease; flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div data-faq-answer style="max-height:0; overflow:hidden; transition:max-height 0.4s ease;">
+            <p style="margin:0; padding:0 32px 28px 96px; font-size:14px; line-height:1.9; color:#3A3D42;">ございます。国内スタッフによる保守・サポート体制をご用意しています。導入後も安心してご利用いただけます。</p>
+          </div>
+        </div>
+
+        <div data-faq style="background:#fff; border-radius:12px; box-shadow:0 2px 16px rgba(0,0,0,0.04); overflow:hidden;">
+          <div data-faq-head style="min-height:76px; padding:20px 32px; display:flex; align-items:center; gap:24px; cursor:pointer;">
+            <div style="display:flex; align-items:center; gap:24px; flex:1; min-width:0;">
+              <span style="font-size:24px; font-weight:800; color:#013bd8;">Q</span>
+              <span style="width:1px; height:28px; background:#E5E6E9; flex-shrink:0;"></span>
+              <span style="font-size:18px; font-weight:700; color:#0A0B0D;">デモ可能ですか？</span>
+            </div>
+            <svg data-faq-chevron width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#013bd8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.3s ease; flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div data-faq-answer style="max-height:0; overflow:hidden; transition:max-height 0.4s ease;">
+            <p style="margin:0; padding:0 32px 28px 96px; font-size:14px; line-height:1.9; color:#3A3D42;">可能です。実機でのデモをご用意しています。お問い合わせフォームよりお気軽にご依頼ください。</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ SECTION 9: CTA & FOOTER ============ -->
+  <section data-screen-label="CTA" data-comment-anchor="cta" style="padding:120px 40px 0; background:#f3f2f4;">
+    <div style="max-width:1240px; margin:0 auto;">
+
+      <!-- CTA card -->
+      <div data-cta-card style="background:#fff; border-radius:28px; padding:80px; box-shadow:0 2px 30px rgba(0,0,0,0.05); display:flex; align-items:center; gap:48px;">
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:13px; font-weight:700; letter-spacing:0.18em; color:#013bd8; margin-bottom:24px;">READY TO UPGRADE</div>
+          <h2 style="margin:0; font-size:56px; font-weight:800; line-height:1.3; letter-spacing:-0.01em; color:#0A0B0D;">会議の未来を、<br>今すぐ変える。</h2>
+          <p style="margin:28px 0 40px; font-size:17px; font-weight:500; line-height:1.9; color:#3A3D42;">WORXHUBが、会議の生産性を次のステージへ。<br>まずはお気軽にお問い合わせください。</p>
+          <div data-cta-btns style="display:flex; align-items:center; gap:16px;">
+            <a href="#" style="height:60px; padding:0 34px; border-radius:30px; background:#013bd8; color:#fff; display:flex; align-items:center; gap:12px; font-size:16px; font-weight:600;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+              お問い合わせ
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><polyline points="9 6 15 12 9 18"/></svg>
+            </a>
+            <a href="#" style="height:60px; padding:0 34px; border-radius:30px; background:#fff; border:1.5px solid #013bd8; color:#013bd8; display:flex; align-items:center; gap:12px; font-size:16px; font-weight:600;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+              資料請求
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><polyline points="9 6 15 12 9 18"/></svg>
+            </a>
+          </div>
+        </div>
+        <div style="flex:0 0 46%; display:flex; align-items:center; justify-content:center;">
+          <img src="assets/cta-device.png" alt="WORXHUB 電子黒板本体" style="width:100%; height:auto; max-height:420px; object-fit:contain; display:block;">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer style="background:#fff; margin-top:80px;">
+      <div style="max-width:1240px; margin:0 auto; padding:72px 40px 40px;">
+        <div data-foot-row style="display:flex; gap:56px;">
+
+          <!-- Brand -->
+          <div style="flex:0 0 300px;">
+            <div style="font-size:24px; font-weight:800; letter-spacing:0.01em; color:#0A0B0D;">WORXHUB</div>
+            <p style="margin:20px 0 0; font-size:14px; line-height:1.9; color:#3A3D42;">会議をもっとシンプルに、スマートに。すべてを一台に集約したオールインワン会議ソリューション。</p>
+          </div>
+
+          <!-- Links -->
+          <div data-foot-links style="flex:1; display:flex; gap:48px;">
+            <div>
+              <div style="font-size:15px; font-weight:700; color:#0A0B0D; margin-bottom:20px;">製品</div>
+              <div style="display:flex; flex-direction:column; gap:14px;">
+                <a href="#feature" style="font-size:14px; color:#3A3D42;">機能</a>
+                <a href="#benefits" style="font-size:14px; color:#3A3D42;">導入メリット</a>
+                <a href="#scene" style="font-size:14px; color:#3A3D42;">利用シーン</a>
+                <a href="#reason" style="font-size:14px; color:#3A3D42;">選ばれる理由</a>
+                <a href="#" style="font-size:14px; color:#3A3D42;">ラインナップ</a>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:15px; font-weight:700; color:#0A0B0D; margin-bottom:20px;">サポート</div>
+              <div style="display:flex; flex-direction:column; gap:14px;">
+                <a href="#flow" style="font-size:14px; color:#3A3D42;">導入フロー</a>
+                <a href="#faq" style="font-size:14px; color:#3A3D42;">よくあるご質問</a>
+                <a href="#" style="font-size:14px; color:#3A3D42;">お問い合わせ</a>
+                <a href="#" style="font-size:14px; color:#3A3D42;">資料ダウンロード</a>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:15px; font-weight:700; color:#0A0B0D; margin-bottom:20px;">企業情報</div>
+              <div style="display:flex; flex-direction:column; gap:14px;">
+                <a href="#" style="font-size:14px; color:#3A3D42;">会社概要</a>
+                <a href="#" style="font-size:14px; color:#3A3D42;">プライバシーポリシー</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom bar -->
+        <div style="margin-top:56px; padding-top:28px; border-top:1px solid #E5E6E9; display:flex; align-items:center; justify-content:space-between;">
+          <div style="font-size:13px; color:#7A7D82;">© 2025 Wiz Co., Ltd. Inc. All Rights Reserved.</div>
+          <div style="display:flex; gap:24px;">
+            <a href="#" style="font-size:13px; color:#7A7D82;">プライバシーポリシー</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </section>
+
+  <!-- ============ STICKY CTA BAR ============ -->
+  <div data-cta-bar style="position:fixed; left:0; right:0; bottom:0; z-index:200; background:#ffffff; box-shadow:0 -2px 20px rgba(0,0,0,0.12);">
+    <div style="max-width:1440px; margin:0 auto; padding:14px 40px; display:flex; align-items:center; gap:16px;">
+      <div data-cta-bar-text style="font-size:16px; font-weight:700; color:#0A0B0D; margin-right:auto;">会議の未来を、今すぐ WORXHUB で。</div>
+      <a href="#" style="height:52px; padding:0 28px; border-radius:26px; background:#013bd8; color:#ffffff; display:flex; align-items:center; justify-content:center; gap:8px; font-size:15px; font-weight:600; white-space:nowrap;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        資料ダウンロード
+      </a>
+      <a href="#" style="height:52px; padding:0 28px; border-radius:26px; background:#ffffff; border:1.5px solid #013bd8; color:#013bd8; display:flex; align-items:center; justify-content:center; gap:8px; font-size:15px; font-weight:600; white-space:nowrap;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+        お問い合わせ
+      </a>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const ease = 'cubic-bezier(0.16,1,0.3,1)';
+    const items = [];
+
+    const add = (el, dir, delay, dist) => {
+      if (!el) return;
+      dist = (dist == null) ? 64 : dist;
+      let tx = 0, ty = 0;
+      if (dir === 'left') tx = -dist;
+      else if (dir === 'right') tx = dist;
+      else ty = dist;
+      el.style.opacity = '0';
+      el.style.willChange = 'opacity, transform';
+      if (!reduce) el.style.transform = 'translate(' + tx + 'px,' + ty + 'px)';
+      el.style.transition = 'opacity 1.6s ease, transform 1.6s ' + ease;
+      items.push({ el: el, delay: delay || 0 });
+    };
+
+    const sections = Array.from(document.querySelectorAll('section[data-screen-label]'));
+    const groups = [];
+
+    sections.forEach((section) => {
+      const label = section.getAttribute('data-screen-label');
+      const start = items.length;
+      const inner = section.querySelector(':scope > div');
+
+      if (label === 'FV') {
+        add(section.querySelector('[data-fv-text]'), 'left', 0, 34);
+        add(section.querySelector('[data-fv-visual]'), 'right', 240);
+        add(section.querySelector('[data-fv-sp]'), 'up', 160, 34);
+        add(section.querySelector('[data-fv-cta]'), 'left', 220, 34);
+      } else if (label === 'All-in-One') {
+        if (inner) {
+          add(inner.children[0], 'left', 0);
+          add(inner.children[1], 'right', 240);
+        }
+      } else if (label === 'Band') {
+        add(inner ? inner.children[0] : null, 'up', 0, 40);
+      } else if (label === 'CTA') {
+        const card = inner ? inner.children[0] : null;
+        if (card && card.childElementCount >= 2) {
+          add(card.children[0], 'left', 0);
+          add(card.children[1], 'right', 260);
+        }
+        add(section.querySelector('footer'), 'up', 0, 34);
+      } else {
+        const blocks = inner ? Array.from(inner.children) : [];
+        let heading = null;
+        blocks.forEach((b) => { if (b.querySelector('h2')) heading = b; });
+        let container = null, best = -1;
+        blocks.forEach((b) => {
+          if (b !== heading && b.childElementCount > best) { best = b.childElementCount; container = b; }
+        });
+        if (heading) add(heading, 'up', 0, 34);
+        if (container) {
+          const cards = Array.from(container.children).filter((c) => c.childElementCount >= 2);
+          cards.forEach((c, i) => add(c, (i % 2 === 0) ? 'left' : 'right', 260 + i * 230));
+          blocks.forEach((b) => {
+            if (b !== heading && b !== container && b.childElementCount >= 2) {
+              add(b, 'up', 360 + cards.length * 230);
+            }
+          });
+        }
+      }
+
+      groups.push({ section: section, from: start, to: items.length });
+    });
+
+    const reveal = (g, baseDelay) => {
+      for (let i = g.from; i < g.to; i++) {
+        const it = items[i];
+        setTimeout(() => {
+          it.el.style.opacity = '1';
+          it.el.style.transform = 'none';
+        }, (baseDelay || 0) + it.delay);
+      }
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const g = groups.find((x) => x.section === entry.target);
+        if (g) { reveal(g, 0); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -15% 0px' });
+
+    groups.forEach((g) => {
+      if (g.section.getAttribute('data-screen-label') === 'FV') {
+        reveal(g, 120);
+      } else {
+        io.observe(g.section);
+      }
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('[data-faq]').forEach((item) => {
+      const head = item.querySelector('[data-faq-head]');
+      const ans = item.querySelector('[data-faq-answer]');
+      const chev = item.querySelector('[data-faq-chevron]');
+      if (!head || !ans) return;
+      head.addEventListener('click', () => {
+        const open = ans.style.maxHeight && ans.style.maxHeight !== '0px';
+        if (open) {
+          ans.style.maxHeight = '0px';
+          if (chev) chev.style.transform = 'rotate(0deg)';
+        } else {
+          ans.style.maxHeight = ans.scrollHeight + 'px';
+          if (chev) chev.style.transform = 'rotate(180deg)';
+        }
+      });
+    });
+
+    // Mobile hamburger menu
+    const burger = document.querySelector('[data-hamburger]');
+    const menu = document.querySelector('[data-mobile-menu]');
+    if (burger && menu) {
+      burger.addEventListener('click', () => {
+        menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+      });
+      menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { menu.style.display = 'none'; }));
+    }
+  }
+
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
